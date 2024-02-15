@@ -9,5 +9,5 @@ SSH_PASSWORD="YOUR_SSH_PASSWORD_HERE"
 #Should script prep master node (0= DO NOT prep master; 1 = prep master)
 PREP_MASTER=1
 
-#Command to input to workers if master node is not being prepped
+#The "kubeadm join [...]" command to input to workers if master node is not being prepped
 KUBEADM_WORKER_JOIN_COMMAND="INSERT_YOUR_KUBEADM_JOIN_COMMAND_HERE_IF_NEEDED"
