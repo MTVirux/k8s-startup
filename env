@@ -6,7 +6,7 @@ SSH_USER="YOUR_SSH_USER_HERE"
 SSH_IDENTITY_FILE="/home/example/.ssh/identity_file.pem"
 SSH_PASSWORD="YOUR_SSH_PASSWORD_HERE"
 
-#Should script prep master node
+#Should script prep master node (0= DO NOT prep master; 1 = prep master)
 PREP_MASTER=1
 
 #Command to input to workers if master node is not being prepped
