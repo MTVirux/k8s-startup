@@ -2,9 +2,9 @@
 WORKER_NODE_IPS_TO_CLUSTER="127.0.0.1, 127.0.0.2"
 
 #SSH Vars
-SSH_USER=ubuntu
-SSH_IDENTITY_FILE="none"
-SSH_PASSWORD="password123"
+SSH_USER="YOUR_SSH_USER_HERE"
+SSH_IDENTITY_FILE="/home/example/.ssh/identity_file.pem"
+SSH_PASSWORD="YOUR_SSH_PASSWORD_HERE"
 
 #Should script prep master node
 PREP_MASTER=1
