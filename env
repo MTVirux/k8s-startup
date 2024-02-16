@@ -41,3 +41,14 @@ IGNORE_SSH_FINGERPRINT_CHANGE=true
 CONTAINER_NETWORKING_ADDON="https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
 
 
+########################
+#       Reset Config
+########################
+
+#Purge kubeadm kubelet kubectl kubernetes-cni AND autoremove
+UNINSTALL_K8S_ON_RESET=true
+#Purge snap
+UNINSTALL_SNAP_ON_RESET=false
+#Run apt autoremove
+RUN_APT_AUTOREMOVE_ON_RESET=true
+
