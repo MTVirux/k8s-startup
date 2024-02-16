@@ -121,7 +121,7 @@ function deploy_dashboard ()  {
 
 function main () {
 
-    if [ $PREP_MASTER ]; then
+    if [ $PREP_MASTER = true ]; then
         echo "********* PREPPING MASTER *********" | tee $MASTER_LOG
         echo "Running pre-requisites on master..." | tee $MASTER_LOG
         chmod +x ./pre_requisites.sh
