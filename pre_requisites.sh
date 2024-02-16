@@ -8,20 +8,21 @@
 sudo swapoff -a
 
 # Copy original fstab to backup file
-sudo cp "$fstab_path" "$backup_file"
+sudo cp /etc/fstab /etc/fstab_backup
 
 # Comment out the swap entry in the fstab file
-sudo awk '!/^#/ && /swap/ {$0="#"$0} {print}' "$fstab_path" > "$temp_file"
+
+sudo awk '!/^#/ && /swap/ {$0="#"$0} {print}' /etc/fstab > /etc/fstab_temp
 
 # Replace the original fstab with the modified one
-sudo mv "$temp_file" "$fstab_path"
+sudo mv /etc/fstab_temp /etc/fstab
 
 
 
 #
 # Install dependencies
 #
-
+sudo apt-get update
 sudo apt-get install docker.io apt-transport-https curl -y
 
 #
