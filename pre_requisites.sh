@@ -23,7 +23,8 @@ sudo mv /etc/fstab_temp /etc/fstab
 # Install dependencies
 #
 sudo apt-get update
-sudo apt-get install docker.io apt-transport-https curl -y
+sudo apt-get install docker.io apt-transport-https curl strace snap -y
+sudo snap install helm --classic 
 
 #
 # Add k8s keys
@@ -38,3 +39,5 @@ sudo apt-get update
 #
 
 sudo apt-get install kubeadm kubelet kubectl kubernetes-cni -y
+
+strace -eopenat kubectl version
