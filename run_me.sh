@@ -118,6 +118,12 @@ function deploy_dashboard ()  {
 
 }
 
+function setup_container_networking () {
+
+    sudo kubectl apply -f $CONTAINER_NETWORKING_ADDON
+
+}
+
 
 function main () {
 
@@ -142,6 +148,7 @@ prep_logs
 prep_env_vars
 prep_ssh
 main
+setup_container_networking
 deploy_dashboard
 
 

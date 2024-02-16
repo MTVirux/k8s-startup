@@ -32,3 +32,12 @@ SSH_IDENTITY_FILE="/home/example/.ssh/identity_file.pem"
 #This allows the script to not require user input upon detecting a changed fingerprint on the SSH target.
 IGNORE_SSH_FINGERPRINT_CHANGE=true
 
+
+########################
+#       Networking
+########################
+
+#Default container networking addon is "https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
+CONTAINER_NETWORKING_ADDON="https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
+
+
