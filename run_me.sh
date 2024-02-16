@@ -111,6 +111,13 @@ function prep_env_vars () {
 
 }
 
+function deploy_dashboard ()  {
+
+    sudo helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
+    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+
+}
+
 
 function main () {
 
@@ -135,6 +142,7 @@ prep_logs
 prep_env_vars
 prep_ssh
 main
+deploy_dashboard
 
 
 
