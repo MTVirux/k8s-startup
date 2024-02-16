@@ -15,7 +15,7 @@ KUBEADM_WORKER_JOIN_COMMAND="kubeadm join [...]" # ONLY USED IF MASTER NODE ISN'
 ########################
 
 #Comma separated list of IPs to add to cluster
-WORKER_NODE_IPS_TO_CLUSTER="10.0.0.1, 10.0.0.2, 10.0.0.3"
+WORKER_NODE_IPS_TO_CLUSTER="172.16.0.1, 172.16.0.2, 172.16.0.3"
 
 
 ########################
