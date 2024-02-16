@@ -37,7 +37,6 @@ function setup_master () {
     sudo kubeadm init > $KUBEADM_INIT_LOG
     WORKER_JOIN_COMMAND=$(grep -zo "kubeadm join.*" "$KUBEADM_INIT_LOG" | tr -d '\n' | tr -d '\\' | sed 's/ \{2,\}/ /g')
 
-   
     # Check if WORKER_JOIN_COMMAND was found
     if [ -z "$WORKER_JOIN_COMMAND" ]; then
         echo "Error: WORKER_JOIN_COMMAND not found. Exiting script." | tee $MASTER_LOG
