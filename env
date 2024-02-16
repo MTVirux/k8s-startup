@@ -1,5 +1,5 @@
 ########################
-#     Master Prep
+#     Master Config
 ########################
 
 #Should script prep master node (true = DO NOT prep master; false = prep master)
@@ -11,7 +11,7 @@ KUBEADM_WORKER_JOIN_COMMAND="kubeadm join [...]" # ONLY USED IF MASTER NODE ISN'
 
 
 ########################
-#     Worker Prep
+#     Worker Config
 ########################
 
 #Comma separated list of IPs to add to cluster
