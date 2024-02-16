@@ -35,19 +35,23 @@ function setup_master () {
 
     echo "Running kubeadm init..." | tee $MASTER_LOG $KUBEADM_INIT_LOG
     sudo kubeadm init > $KUBEADM_INIT_LOG
-    cat $KUBEADM_INIT_LOG >> $MASTER_LOG
     WORKER_JOIN_COMMAND=$(grep -zo "kubeadm join.*" "$KUBEADM_INIT_LOG" | tr -d '\n' | tr -d '\\' | sed 's/ \{2,\}/ /g')
 
-    echo "Using the following kubeadm join command: $WORKER_JOIN_COMMAND"
-    echo $(cat $KUBEADM_INIT_LOG)
-    
+   
     # Check if WORKER_JOIN_COMMAND was found
     if [ -z "$WORKER_JOIN_COMMAND" ]; then
         echo "Error: WORKER_JOIN_COMMAND not found. Exiting script." | tee $MASTER_LOG
         exit 1
     fi
 
-    echo "Using the following kubeadm join command: $WORKER_JOIN_COMMAND" | tee $MASTER_LOG
+    echo "\n\n - Using the following kubeadm join command: $WORKER_JOIN_COMMAND" | tee $MASTER_LOG
+    
+    # Fix config by copying the admin.conf from kubernetes
+    echo "\n Fixing config..." | tee $MASTER_LOG
+    mkdir -p $HOME/.kube
+    sudo rm -f $HOME.kube/config
+    sudo cp /etc/kubernetes/admin.conf $HOME/.kube/config
+    sudo chown $(id -u):$(id -g) $HOME/.kube/config
 }
 
 function prep_ssh () {
