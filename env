@@ -50,8 +50,13 @@ CUSTOM_POD_CIDR="10.244.0.0/16"
 
 #Purge kubeadm kubelet kubectl kubernetes-cni AND autoremove
 UNINSTALL_K8S_ON_RESET=true
+
 #Purge snap
 UNINSTALL_SNAP_ON_RESET=false
+
+#Delete helm
+UNINSTALL_HELM_ON_RESET=true
+
 #Run apt autoremove
 RUN_APT_AUTOREMOVE_ON_RESET=true
 

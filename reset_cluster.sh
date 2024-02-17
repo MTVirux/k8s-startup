@@ -70,19 +70,21 @@ if [ $PREP_MASTER = true ]; then
     #Remove k8s
     sudo kubeadm reset -f
     sudo kubectl delete all --all-namespaces --all
-    
-    #Remove helm
-    sudo helm delete 
+
+    #Remove kubernetes-dashboard package
     sudo helm delete kubernetes-dashboard --namespace kubernetes-dashboard
 
-    if [ $UNINSTALL_SNAP_ON_RESET = true ]; then
-        sudo apt purge snap -y
-    fi
     
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
         sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+    fi
 
+    if [ $UNINSTALL_HELM_ON_RESET = true ];then
         sudo snap remove helm
+    fi
+
+    if [ $UNINSTALL_SNAP_ON_RESET = true ]; then
+        sudo apt purge snap -y
     fi
 
     if [ $RUN_APT_AUTOREMOVE_ON_RESET =  true ]; then
