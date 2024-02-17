@@ -70,7 +70,6 @@ if [ $PREP_MASTER = true ]; then
     #Remove k8s
     sudo kubeadm reset -f
     sudo kubectl delete all --all-namespaces --all
-    sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
     
     #Remove helm
     sudo helm delete 
@@ -82,7 +81,7 @@ if [ $PREP_MASTER = true ]; then
     fi
     
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
-        sudo apt purge kubeadm kubelet kubectl kubernetes-cni -y
+        sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
     fi
 
     if [ $RUN_APT_AUTOREMOVE_ON_RESET =  true ]; then
