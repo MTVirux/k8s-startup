@@ -77,5 +77,3 @@ sudo apt-get update
 #
 
 sudo apt-get install kubeadm kubelet kubectl kubernetes-cni -y
-
-strace -eopenat kubectl version
