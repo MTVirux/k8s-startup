@@ -1,4 +1,17 @@
 ########################
+#
+#    READ CAREFULLY
+#
+########################
+#This will rewrite the this user's known_hosts to always accept an SSH target fingerprint. 
+#This allows the script to not require user input upon detecting a changed fingerprint on the SSH target.
+#This is a major security threat and should not be "true" unless it's a completely controlled or test envoironment
+IGNORE_SSH_FINGERPRINT_CHANGE=false
+
+
+########################################################################################################
+
+########################
 #     Master Config
 ########################
 
@@ -27,10 +40,6 @@ SSH_USER="YOUR_SSH_USER_HERE"
 #If a non-existing SSH_IDENTITY_FILE will cause the password to be used.
 #While password was considered, this is too much of a security risk and was therefore removed from this script
 SSH_IDENTITY_FILE="/home/example/.ssh/identity_file.pem"
-
-#This will rewrite the this user's known_hosts to always accept an SSH target fingerprint. 
-#This allows the script to not require user input upon detecting a changed fingerprint on the SSH target.
-IGNORE_SSH_FINGERPRINT_CHANGE=true
 
 
 ########################
