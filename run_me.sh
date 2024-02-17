@@ -34,7 +34,7 @@ function setup_master () {
     #
 
     echo "Running kubeadm init..." | tee $MASTER_LOG $KUBEADM_INIT_LOG
-    sudo kubeadm init > $KUBEADM_INIT_LOG
+    sudo kubeadm init --pod-network-cidr=$CUSTOM_POD_CIDR > $KUBEADM_INIT_LOG
     WORKER_JOIN_COMMAND=$(grep -zo "kubeadm join.*" "$KUBEADM_INIT_LOG" | tr -d '\n' | tr -d '\\' | sed 's/ \{2,\}/ /g')
 
     # Check if WORKER_JOIN_COMMAND was found
