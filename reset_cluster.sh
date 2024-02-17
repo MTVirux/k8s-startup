@@ -76,7 +76,7 @@ if [ $PREP_MASTER = true ]; then
 
     
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
-        sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+        sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube* -y  
     fi
 
     if [ $UNINSTALL_HELM_ON_RESET = true ];then
@@ -123,7 +123,7 @@ do
 
     
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
-        ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*"
+        ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube* -y"
     fi
 
     if [ $UNINSTALL_HELM_ON_RESET = true ];then
