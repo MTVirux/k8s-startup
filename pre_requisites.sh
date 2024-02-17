@@ -22,12 +22,26 @@ sudo mv /etc/fstab_temp /etc/fstab
 #
 # Install dependencies
 #
+
 sudo apt-get update
-sudo apt-get install docker.io apt-transport-https curl strace snap -y
+sudo apt-get install apt-transport-https curl strace snap containerd -y
 sudo snap install helm --classic 
 
 #
-# Add k8s keys
+# Prep containerd config
+#
+
+sudo rm -f /etc/containerd/config.toml
+sudo mkdir -p /etc/containerd && sudo touch /etc/containerd/config.toml
+sudo /usr/bin/containerd config default > /etc/containerd/config.toml
+sed -i 's/SystemdCgroup = .*/SystemdCgroup = true/' /etc/containerd/config.toml
+sed -i 's/sandbox_image = .*/sandbox_image = "registry.k8s.io\/pause:3.9"/' /etc/containerd/config.toml
+
+#Install CNI plugins
+wget https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz -P /tmp
+sudo tar Cxzvf /opt/cni/bin /tmp/cni-plugins-linux-amd64-v1.4.0.tgz 
+systemctl restart containerd
+
 #
 
 curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
