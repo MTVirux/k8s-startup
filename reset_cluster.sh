@@ -62,9 +62,11 @@ prep_env_vars
 prep_ssh
 
 
-echo "Resetting master"
 
 if [ $PREP_MASTER = true ]; then
+
+    echo "Resetting master..."
+
     #Remove k8s
     sudo kubeadm reset -f
     sudo apt purge kubeadm kubelet kubectl kubernetes-cni -y
