@@ -74,7 +74,6 @@ if [ $PREP_MASTER = true ]; then
     #Remove helm
     sudo helm delete 
     sudo helm delete kubernetes-dashboard --namespace kubernetes-dashboard
-    sudo snap remove helm
 
     if [ $UNINSTALL_SNAP_ON_RESET = true ]; then
         sudo apt purge snap -y
@@ -82,6 +81,8 @@ if [ $PREP_MASTER = true ]; then
     
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
         sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
+
+        sudo snap remove helm
     fi
 
     if [ $RUN_APT_AUTOREMOVE_ON_RESET =  true ]; then
