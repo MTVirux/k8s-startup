@@ -40,7 +40,8 @@ IGNORE_SSH_FINGERPRINT_CHANGE=true
 #Default container networking addon is "https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
 CONTAINER_NETWORKING_ADDON="https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
 
-#Custom network for pods (in CIDR notation) (flannel default is 10.244.0.0/16)
+#Custom network for pods (in CIDR notation)
+#(flannel default is 10.244.0.0/16 to change you'll have to edit the above .yml file)
 CUSTOM_POD_CIDR="10.244.0.0/16"
 
 
