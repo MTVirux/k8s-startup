@@ -114,10 +114,38 @@ do
         ssh-keyscan -H $IP >> /root/.ssh/known_hosts
     fi
 
+    #Remove k8s
     ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo kubeadm reset -f"
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo kubectl delete all --all-namespaces --all"
+
+    #Remove kubernetes-dashboard package
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo helm delete kubernetes-dashboard --namespace kubernetes-dashboard"
+
     
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
-        sudo apt purge kubeadm kubelet kubectl kubernetes-cni -y && sudo apt autoremove
+        ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*"
     fi
+
+    if [ $UNINSTALL_HELM_ON_RESET = true ];then
+        ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo snap remove helm"
+    fi
+
+    if [ $UNINSTALL_SNAP_ON_RESET = true ]; then
+        ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo apt purge snap -y"
+    fi
+
+    if [ $RUN_APT_AUTOREMOVE_ON_RESET =  true ]; then
+        ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo apt autoremove -y"
+    fi
+
+    #Delete configs and data
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo rm -rf ~/.kube"
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo rm -rf /etc/cni"
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo rm -rf /etc/kubernetes"
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo rm -rf /var/lib/etcd"
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo rm -rf /var/lib/kubelet"
+
+    #Reset iptables
+    ssh $SSH_SECURITY_OPTIONS "$SSH_USER@$IP" "sudo iptables -F && sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -X"
 
 done
