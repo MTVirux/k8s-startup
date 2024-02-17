@@ -20,10 +20,15 @@ function prep_env_vars () {
         # Read the .env file, remove comments and export variables
         export $(grep -v '^#' .env | sed -e 's/#.*//' -e '/^WORKER_NODE_IPS_TO_CLUSTER=/ s/ //g' | xargs)
 
+
+
         # Separate the WORKER_NODE_IPS_TO_CLUSTER by comma and print each IP
+        TOTAL_NUMBER_OF_WORKERS = 0 #Filled below from parsing IP_LIST
+        CURRENT_ACTIVE_WORKER = -1
         IFS=',' read -ra IP_LIST <<< "$WORKER_NODE_IPS_TO_CLUSTER"
         for IP in "${IP_LIST[@]}"; do
             echo "WORKER_IP_FOUND: $IP" | tee $MASTER_LOG
+            $TOTAL_NUMBER_OF_WORKERS=$TOTAL_NUMBER_OF_WORKERS + 1
         done
 
     else
@@ -87,7 +92,9 @@ fi
 
 for IP in "${IP_LIST[@]}"
 do
-    echo "Resetting worker $@"
+    $CURRENT_ACTIVE_WORKER=$CURRENT_ACTIVE_WORKER + 1
+
+    echo "Resetting worker $CURRENT_ACTIVE_WORKER"
 
     if [ $IGNORE_SSH_FINGERPRINT_CHANGE = true ]; then
         ssh-keygen -R $IP 
@@ -99,4 +106,5 @@ do
     if [ $UNINSTALL_K8S_ON_RESET = true ]; then
         sudo apt purge kubeadm kubelet kubectl kubernetes-cni -y && sudo apt autoremove
     fi
+
 done
