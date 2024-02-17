@@ -69,7 +69,8 @@ if [ $PREP_MASTER = true ]; then
 
     #Remove k8s
     sudo kubeadm reset -f
-    sudo apt purge kubeadm kubelet kubectl kubernetes-cni -y
+    sudo kubectl delete all --all-namespaces --all
+    sudo apt-get purge kubeadm kubectl kubelet kubernetes-cni kube*   
     
     #Remove helm
     sudo helm delete 
