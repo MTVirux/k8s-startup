@@ -89,7 +89,12 @@ if [ $PREP_MASTER = true ]; then
         sudo apt autoremove -y
     fi
 
-    rm -f $HOME/.kube/config
+    #Delete configs and data
+    sudo rm -rf ~/.kube
+    sudo rm -rf /etc/cni
+    sudo rm -rf /etc/kubernetes
+    sudo rm -rf /var/lib/etcd
+    sudo rm -rf /var/lib/kubelet
 
 fi
 
