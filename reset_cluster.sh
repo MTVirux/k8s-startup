@@ -96,6 +96,9 @@ if [ $PREP_MASTER = true ]; then
     sudo rm -rf /var/lib/etcd
     sudo rm -rf /var/lib/kubelet
 
+    #Reset iptables
+    sudo iptables -F && sudo iptables -t nat -F && sudo iptables -t mangle -F && sudo iptables -X
+
 fi
 
 for IP in "${IP_LIST[@]}"
