@@ -75,10 +75,10 @@ function prep_ssh () {
 function prep_logs () {
 
     TIMESTAMP=$(date +"%Y-%m-%d_%H-%M-%S")
-    mkdir -p ./logs/"$TIMESTAMP"/
-    MASTER_LOG=./logs/"$TIMESTAMP"/master.log
-    WORKER_LOG_DIR=./logs/"$TIMESTAMP"/
-    KUBEADM_INIT_LOG=./logs/"$TIMESTAMP"/kubeadm_init.log
+    mkdir -p ./logs/setup-"$TIMESTAMP"/
+    MASTER_LOG=./logs/setup-"$TIMESTAMP"/master.log
+    WORKER_LOG_DIR=./logs/setup-"$TIMESTAMP"/
+    KUBEADM_INIT_LOG=./logs/setup-"$TIMESTAMP"/kubeadm_init.log
 
 }
 
