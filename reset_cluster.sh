@@ -28,8 +28,13 @@ function prep_env_vars () {
         IFS=',' read -ra IP_LIST <<< "$WORKER_NODE_IPS_TO_CLUSTER"
         for IP in "${IP_LIST[@]}"; do
             echo "WORKER_IP_FOUND: $IP" | tee $MASTER_LOG
-            $TOTAL_NUMBER_OF_WORKERS=$TOTAL_NUMBER_OF_WORKERS + 1
+            ((TOTAL_NUMBER_OF_WORKERS++))  # Corrected line
         done
+
+        if [ "$RESET_LOGS_ON_CLUSTER_SETUP" = true ]; then
+            sudo rm -rf ./logs
+        fi
+
 
     else
         echo "ERROR: .env file not found." | tee $MASTER_LOG
@@ -105,7 +110,7 @@ fi
 
 for IP in "${IP_LIST[@]}"
 do
-    $CURRENT_ACTIVE_WORKER=$CURRENT_ACTIVE_WORKER + 1
+    ((CURRENT_ACTIVE_WORKER++))
 
     echo "Resetting worker $CURRENT_ACTIVE_WORKER"
 
