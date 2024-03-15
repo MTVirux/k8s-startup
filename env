@@ -43,7 +43,7 @@ SSH_IDENTITY_FILE="/home/example/.ssh/identity_file.pem"
 
 
 ########################
-#       Networking
+#   Networking Config
 ########################
 
 #Default container networking addon is "https://github.com/flannel-io/flannel/releases/latest/download/kube-flannel.yml"
@@ -55,7 +55,14 @@ CUSTOM_POD_CIDR="10.244.0.0/16"
 
 
 ########################
-#       Reset Config
+#   Containerd Config
+########################
+
+PRIVATE_REPO_URL="https://example.com"
+
+
+########################
+#   Reset Config
 ########################
 
 #Purge kubeadm kubelet kubectl kubernetes-cni AND autoremove
@@ -69,4 +76,3 @@ UNINSTALL_HELM_ON_RESET=true
 
 #Run apt autoremove
 RUN_APT_AUTOREMOVE_ON_RESET=true
-
