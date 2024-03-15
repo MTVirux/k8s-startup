@@ -118,14 +118,30 @@ function prep_env_vars () {
 
 function deploy_dashboard ()  {
 
-    sudo helm repo add kubernetes-dashboard https://kubernetes.github.io/dashboard/
-    helm upgrade --install kubernetes-dashboard kubernetes-dashboard/kubernetes-dashboard --create-namespace --namespace kubernetes-dashboard
+    #sudo git clone https://github.com/irsols-devops/kubernetes-dashboard.git
+    #kubectl apply -f ./kubernetes-dashboard
+    sudo helm repo add prometheus-community https://prometheus-community.github.io/helm-charts
+    sudo helm repo update
+    sudo helm install prometheus-community/kube-prometheus-stack --generate-name
 
 }
 
 function setup_container_networking () {
 
     sudo kubectl apply -f $CONTAINER_NETWORKING_ADDON
+
+}
+
+function post_install_monitoring () {
+
+    sudo watch -n 1 kubectl get pods --all-namespaces
+
+}
+
+function setup_cert_manager () {
+
+    sudo helm repo add jetstack https://charts.jetstack.io --force-update
+    sudo helm upgrade -i -n cert-manager cert-manager-csi-driver jetstack/cert-manager-csi-driver --wait
 
 }
 
