@@ -15,15 +15,14 @@ function pre_reqs () {
 function setup_workers () {
 
     TARGET_IP=$1
-    WORKER_ID=$2
 
-    if [ $IGNORE_SSH_FINGERPRINT_CHANGE = true ]; then
+    if [ $IGNORE_SSH_FINGERPRINT_CHANGE ]; then
         ssh-keygen -R $TARGET_IP 
         ssh-keyscan -H $TARGET_IP >> /root/.ssh/known_hosts
     fi
 
-    sudo ssh "$SSH_SECURITY_OPTIONS" "$SSH_USER@$TARGET_IP" "sudo bash -s" < "./pre_requisites.sh" | tee $WORKER_LOG_DIR/worker$2.log
-    sudo ssh "$SSH_SECURITY_OPTIONS" "$SSH_USER@$TARGET_IP" "sudo $WORKER_JOIN_COMMAND" | tee $WORKER_LOG_DIR/worker@.log
+    sudo ssh "$SSH_SECURITY_OPTIONS" "$SSH_USER@$TARGET_IP" "sudo bash -s" < "./pre_requisites.sh" | tee $WORKER_LOG_DIR/worker$CURRENT_ACTIVE_WORKER.log
+    sudo ssh "$SSH_SECURITY_OPTIONS" "$SSH_USER@$TARGET_IP" "sudo $WORKER_JOIN_COMMAND" | tee $WORKER_LOG_DIR/worker$CURRENT_ACTIVE_WORKER.log
 
 }
 
