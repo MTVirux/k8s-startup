@@ -105,6 +105,10 @@ function prep_env_vars () {
             ((TOTAL_NUMBER_OF_WORKERS++))
         done
 
+        if [ $RESET_LOGS_ON_CLUSTER_SETUP ]; then
+            sudo rm -rf ./logs/
+        fi
+
     else
         echo "ERROR: .env file not found." | tee $MASTER_LOG
         exit 1
