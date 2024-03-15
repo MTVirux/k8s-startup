@@ -25,17 +25,40 @@ sudo mv /etc/fstab_temp /etc/fstab
 
 sudo apt-get update
 sudo apt-get install apt-transport-https curl strace snap containerd -y
+#wget https://github.com/Mirantis/cri-dockerd/releases/download/v0.3.10/cri-dockerd_0.3.10.3-0.ubuntu-jammy_amd64.deb -P /tmp
+#sudo dpkg -i /tmp/cri-dockerd_0.3.10.3-0.ubuntu-jammy_amd64.deb
 sudo snap install helm --classic 
 
 #
 # Prep containerd config
 #
 
+# Delete previous config
 sudo rm -f /etc/containerd/config.toml
+# Make new config file
 sudo mkdir -p /etc/containerd && sudo touch /etc/containerd/config.toml
 sudo /usr/bin/containerd config default > /etc/containerd/config.toml
-sed -i 's/SystemdCgroup = .*/SystemdCgroup = true/' /etc/containerd/config.toml
-sed -i 's/sandbox_image = .*/sandbox_image = "registry.k8s.io\/pause:3.9"/' /etc/containerd/config.toml
+
+# Set up the mirror entry for the private registry
+mirror_entry="[plugins.\"io.containerd.grpc.v1.cri\".registry.mirrors]
+  [plugins.\"io.containerd.grpc.v1.cri\".registry.mirrors.\"$PRIVATE_CONTAINER_REGISTRY\"]
+    endpoint = [\"$PRIVATE_CONTAINER_REGISTRY\"]"
+
+# Setup path for the config file
+config_file="/etc/containerd/config.toml"
+
+# Modify SystemCgroup and sandbox image
+sed -i 's/SystemdCgroup = .*/SystemdCgroup = true/' $config_file
+sed -i 's/sandbox_image = .*/sandbox_image = "registry.k8s.io\/pause:3.9"/' $config_file
+
+
+# Add the mirror entry to the config.toml file using sed
+sed -i "/\[plugins\.\"io\.containerd\.grpc\.v1\.cri\"\\.registry\.mirrors\]/a $mirror_entry" $config_file
+
+
+#
+# CNI Config
+#
 
 #Install CNI plugins
 wget https://github.com/containernetworking/plugins/releases/download/v1.4.0/cni-plugins-linux-amd64-v1.4.0.tgz -P /tmp
@@ -64,16 +87,20 @@ EOF
 # Apply sysctl params without reboot
 sudo sysctl --system
 
+
+
 #
 # Add k8s repo keys
 #
 
-curl -s https://packages.cloud.google.com/apt/doc/apt-key.gpg | sudo apt-key add
-echo "deb https://apt.kubernetes.io/ kubernetes-xenial main" | sudo tee /etc/apt/sources.list.d/kubernetes.list
+curl -fsSL https://pkgs.k8s.io/core:/stable:/v1.29/deb/Release.key | sudo gpg --dearmor -o /etc/apt/keyrings/kubernetes-apt-keyring.gpg
+echo 'deb [signed-by=/etc/apt/keyrings/kubernetes-apt-keyring.gpg] https://pkgs.k8s.io/core:/stable:/v1.29/deb/ /' | sudo tee /etc/apt/sources.list.d/kubernetes.list
 sudo apt-get update
+
+
 
 #
 # Install K8S and its components
 #
 
-sudo apt-get install kubeadm kubelet kubectl kubernetes-cni -y
+sudo apt install -y kubeadm=1.29.1-1.1 kubelet=1.29.1-1.1 kubectl=1.29.1-1.1
