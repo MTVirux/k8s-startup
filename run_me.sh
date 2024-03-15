@@ -158,8 +158,9 @@ function main () {
 
     for IP in "${IP_LIST[@]}"
     do
-        echo "********* PREPPING WORKER $@ *********" | tee $MASTER_LOG
-        setup_workers $IP $@
+        ((CURRENT_ACTIVE_WORKER++))
+        echo "********* PREPPING WORKER "$CURRENT_ACTIVE_WORKER"/"$TOTAL_NUMBER_OF_WORKERS" *********" | tee $MASTER_LOG
+        setup_workers $IP
     done
 
 }
