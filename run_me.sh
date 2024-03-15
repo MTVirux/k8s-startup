@@ -171,8 +171,6 @@ prep_env_vars
 prep_ssh
 main
 setup_container_networking
-deploy_dashboard
-
-
-
-
+setup_cert_manager
+#deploy_dashboard
+#post_install_monitoring
